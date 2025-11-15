@@ -14,6 +14,16 @@
         android:layout_height="0dp"
        app:layout_constraintBottom_toTopOf="@+id/container">
 
+        <Button
+            android:text="Результат"
+            android:textSize="22sp"
+            android:layout_gravity="top|end"
+            android:id="@+id/btn_second_activity"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:visibility="gone"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="16dp"/>
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,6 +36,7 @@
                 android:id="@+id/text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btn_second_activity"
                 android:layout_gravity="end"
                 android:maxLines="1"
                 android:text="0"

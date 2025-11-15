@@ -1,7 +1,9 @@
 package com.vacral.calculate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private double x, y;
     private String operation;
     boolean isOperationClick;
+    private Button btnSecondActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +49,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initLisnteners() {
-        findViewById(R.id.btn_plus_minus).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onExtraOperation(v);
-            }
+        btnSecondActivity = findViewById(R.id.btn_second_activity);
+        btnSecondActivity.setVisibility(View.GONE);
+        btnSecondActivity.setOnClickListener(v -> {
+            String result = textView.getText().toString();
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            intent.putExtra("result", result);
+            startActivity(intent);
         });
+
+
         findViewById(R.id.procent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void onNumberClick(View view){
+        btnSecondActivity.setVisibility(View.GONE);
         String text = ((MaterialButton)view).getText().toString();
         if(text.equals("AC")){
             textView.setText("0");
@@ -175,6 +183,9 @@ public class MainActivity extends AppCompatActivity {
         isOperationClick = false;
     }
     private  void  onOperation(View view){
+        if(view.getId() != R.id.btn_equal){
+            btnSecondActivity.setVisibility(View.GONE);
+        }
 if(view.getId() == R.id.btn_plus){
     x = Double.parseDouble(textView.getText().toString());
     operation = "+";
@@ -204,7 +215,7 @@ if(view.getId() == R.id.btn_plus){
         }else {
             result = x / y;
         }
-    }
+    } btnSecondActivity.setVisibility(View.VISIBLE);
     if (result == (int)result){
     textView.setText(String.valueOf((int) result));
     }else {
@@ -215,9 +226,13 @@ if(view.getId() == R.id.btn_plus){
     }
     private void onExtraOperation(View view){
         double number = Double.parseDouble(textView.getText().toString());
-        if (view.getId() == R.id.procent){
-            number = number / 100;
-        } else if(view.getId() == R.id.btn_plus_minus) {
+        if (view.getId() == R.id.procent) {
+            if (operation != null) {
+                number = x * number / 100;
+            } else {
+                number = number / 100;
+            }
+        }else if(view.getId() == R.id.btn_plus_minus) {
 number = number * -1;
         }
         if (number == (int)number){
